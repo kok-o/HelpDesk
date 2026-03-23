@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  AGENT
+  ADMIN
+}
+
+enum TicketStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TicketCategory {
+  IT
+  HR
+  ACCOUNTING
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  
+  ticketsCreated  Ticket[]  @relation("CreatedTickets")
+  ticketsAssigned Ticket[]  @relation("AssignedTickets")
+  comments        Comment[]
+}
+
+model Ticket {
+  id              Int            @id @default(autoincrement())
+  title           String
+  description     String
+  category        TicketCategory
+  priority        TicketPriority @default(MEDIUM)
+  status          TicketStatus   @default(NEW)
+  
+  creatorId       Int
+  creator         User           @relation("CreatedTickets", fields: [creatorId], references: [id])
+  
+  assignedAgentId Int?
+  assignedAgent   User?          @relation("AssignedTickets", fields: [assignedAgentId], references: [id])
+  
+  comments        Comment[]
+  
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  ticketId  Int
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Article {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  tags      String?
+  createdAt DateTime @default(now())
+}
