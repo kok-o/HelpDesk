@@ -1,0 +1,3 @@
+запуск:
+cd server && npx nodemon src/index.js
+cd client && npm run dev
