@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "c:\\Users\\esenb\\Desktop\\HelpDesk\\server\\logs\\.40203c692e6f01d1366e08446a3d3b13c861e296-audit.json",
+    "files": [
+        {
+            "date": 1774250659444,
+            "name": "c:\\Users\\esenb\\Desktop\\HelpDesk\\server\\logs\\error-2026-03-23.log",
+            "hash": "af4d1479a3c9aae5fa012b629256aaa92d398ed85599420a1135cfb78eeae0e9"
+        }
+    ],
+    "hashType": "sha256"
+}
